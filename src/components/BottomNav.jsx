@@ -7,7 +7,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Transaction from './Transaction';
 
-export default function SimpleBottomNavigation() {
+export default function SimpleBottomNavigation({cats}) {
   const [value, setValue] = React.useState(0);
 
   return (
@@ -22,7 +22,7 @@ export default function SimpleBottomNavigation() {
       >
         <BottomNavigationAction label="Recents" icon={<RestoreIcon fontSize='large'/>} />
         {/* <BottomNavigationAction label="Payments" icon={<Transaction fontSize='large' />} /> */}
-        <Transaction label="Payments" />
+        <Transaction label="Payments" cats={cats} />
         <BottomNavigationAction label="Nearby" icon={<LocationOnIcon fontSize='large'/>} />
       </BottomNavigation>
     </Box>

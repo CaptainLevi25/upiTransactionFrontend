@@ -10,17 +10,28 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-const categoriesArray = ["Category 1", "Category 2", "Category 3"];
+//const categoriesArray = ["Category 1", "Category 2", "Category 3"];
 
-export default function Transaction() {
+export default function Transaction({cats}) {
+  const [categoriesArray,setcategoriesArray] = useState (Array.from(cats).map(itm=>itm.name))
   const [open, setOpen] = useState(false);
   const [desc, setdesc] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [newCategory, setNewCategory] = useState("");
   const [categories, setCategories] = useState(categoriesArray);
-  const [isFormValid, setIsFormValid] = useState(false);
 
+  const [isFormValid, setIsFormValid] = useState(false);
+useEffect(()=>{
+ console.log("cats",cats); 
+  setcategoriesArray(Array.from(cats).map(itm=>itm.name));
+},[cats])
+useEffect(()=>{
+  setCategories(categoriesArray);
+  
+},[categoriesArray])
+  
+    
   useEffect(() => {
     const validateForm = () => {
       const isCategoryValid =

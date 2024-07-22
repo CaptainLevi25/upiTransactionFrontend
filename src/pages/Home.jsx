@@ -69,22 +69,7 @@ export default function Home() {
       
   };
 
-  const createAggregatedData = (transactions) => {
-    const currentDate = dayjs();
-    const data = [];
-  
-    for (let i = 0; i < 7; i++) {
-      const date = currentDate.subtract(i, 'day').startOf('day');
-      const nextDate = date.add(1, 'day');
-      const totalAmount = transactions
-        .filter(transaction => dayjs(transaction.date).isAfter(date) && dayjs(transaction.date).isBefore(nextDate))
-        .reduce((sum, transaction) => sum + transaction.amount, 0);
-  
-      data.push({ date: date.format('YYYY-MM-DD'), totalAmount });
-    }
-    console.log("aggregated date is ", data);
-    return data.reverse();  // Reverse to have the oldest date first
-  };
+
 
   useEffect(() => {
     fetchAllTransaction();
@@ -94,7 +79,7 @@ export default function Home() {
 
   useEffect(() => {
     createMap();
-    const a = transactions.length > 0 && createAggregatedData(transactions);
+    
   }, [transactions,categories]);
 
 
@@ -132,13 +117,13 @@ export default function Home() {
             <div className=" ml-12 text-white text-xl text-center">
              Daily Spending Chart
             </div>
-            <BasicLineChart mp={mp} />
+            <BasicLineChart transactions={transactions} />
           </div>
         </div>
       </div>
       <div className="w-screen">
         {" "}
-        <SimpleBottomNavigation />{" "}
+        <SimpleBottomNavigation cats= {categories} />{" "}
       </div>
     </>
   );
