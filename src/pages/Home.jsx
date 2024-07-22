@@ -6,14 +6,18 @@ import SimpleBottomNavigation from "../components/BottomNav";
 import BasicBars from "../components/Histogram";
 import axios from "axios";
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
 export default function Home() {
+  const {_id} =  JSON.parse(localStorage.getItem('user'));
   const [categories, setcategories] = useState([]);
   const [transactions, settransactions] = useState([]);
   const [mp, setmp] = useState(new Map());
+ 
   const fetchCategoryData = async () => {
     try {
       const data = await axios.get(
-        "http://localhost:8000/getcategories/669d6167c5f101403e870ee9"
+        `http://localhost:8000/getcategories/${_id}`
       );
       setcategories(data.data);
       console.log(categories);
@@ -27,7 +31,7 @@ export default function Home() {
   const fetchAllTransaction = async () => {
     try {
       const data = await axios.get(
-        "http://localhost:8000/transactions/669d6167c5f101403e870ee9"
+        `http://localhost:8000/transactions/${_id}`
       );
       console.log(data.data);
       settransactions(data.data);
@@ -82,7 +86,90 @@ export default function Home() {
     
   }, [transactions,categories]);
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+dayjs.extend(isBetween);
+dayjs.extend(advancedFormat);
+const groupByDateAndCategory = (transactions) => {
+  const groupedData = {};
+  
+  transactions.forEach(transaction => {
+    const date = dayjs(transaction.date).format('YYYY-MM-DD');
+    const category = transaction.category.name;
+
+    if (!groupedData[date]) {
+      groupedData[date] = {};
+    }
+
+    if (!groupedData[date][category]) {
+      groupedData[date][category] = 0;
+    }
+
+    groupedData[date][category] += transaction.amount;
+  });
+
+  return groupedData;
+};
+
+const calculateAverages = (groupedData, currentDate, range) => {
+  const endDate = dayjs(currentDate);
+  const startDate = endDate.subtract(range, 'day');
+  const categoryTotals = {};
+  const categoryCounts = {};
+
+  // Initialize all categories with 0
+  Object.keys(groupedData).forEach(date => {
+    Object.keys(groupedData[date]).forEach(category => {
+      if (!categoryTotals[category]) {
+        categoryTotals[category] = 0;
+        categoryCounts[category] = 0;
+      }
+    });
+  });
+
+  // Calculate totals and counts within the range
+  Object.keys(groupedData).forEach(date => {
+    if (dayjs(date).isBetween(startDate, endDate, null, '[]')) {
+      const categories = groupedData[date];
+      Object.keys(categories).forEach(category => {
+        categoryTotals[category] += categories[category];
+        categoryCounts[category] += 1;
+      });
+    }
+  });
+
+  // Calculate averages
+  const averages = Object.keys(categoryTotals).map(category => ({
+    category,
+    average: categoryTotals[category] / (categoryCounts[category] || 1),
+  }));
+
+  return averages;
+};
+
+const getDailyAverage = (groupedData, currentDate) => {
+  const date = dayjs(currentDate).format('YYYY-MM-DD');
+  const categories = groupedData[date] || {};
+
+  return Object.keys(categories).map(category => ({
+    date,
+    category,
+    amount: categories[category],
+  }));
+};
+
+// Use the functions to get the data
+const currentDate = '2024-07-23';
+const groupedData = groupByDateAndCategory(transactions);
+console.log("groupedData" , groupedData);
+const lastWeekData = calculateAverages(groupedData, currentDate, 6);
+console.log("lastWeekData", lastWeekData);
+const lastMonthData = calculateAverages(groupedData, currentDate, 29);
+const dailyAverageData = calculateAverages(groupedData, currentDate, 0);
+console.log("dailyAverageData",dailyAverageData);
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <>
       <div className="w-screen min-h-screen bg-slate-400  p-10  overflow-hidden flex flex-col gap-10">

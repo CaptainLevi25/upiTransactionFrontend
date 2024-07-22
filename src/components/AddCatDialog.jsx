@@ -11,6 +11,7 @@ import { Add, AddBox, AddIcCallRounded } from '@mui/icons-material';
 import axios from 'axios';
 
 export default function FormDialog() {
+  const {_id} =  JSON.parse(localStorage.getItem('user'));
   const [name,setname] = React.useState('');
   const [open, setOpen] = React.useState(false);
   const [isFormValid, setIsFormValid] = React.useState(false);
@@ -34,7 +35,9 @@ export default function FormDialog() {
     try {
        const res =  name && await axios.post("http://localhost:8000/postcategories", {
         name : name,
-        user : "669d6167c5f101403e870ee9"
+       // user : "669d6167c5f101403e870ee9"
+        user : _id
+
        })
        console.log(res);
        setOpen(false);

@@ -13,6 +13,7 @@ import axios from "axios";
 //const categoriesArray = ["Category 1", "Category 2", "Category 3"];
 
 export default function Transaction({cats}) {
+  const {_id} =  JSON.parse(localStorage.getItem('user'));
   const [categoriesArray,setcategoriesArray] = useState (Array.from(cats).map(itm=>itm.name))
   const [open, setOpen] = useState(false);
   const [desc, setdesc] = useState("");
@@ -65,7 +66,9 @@ useEffect(()=>{
         party: "Anil",
         type: "UPI",
         categoryName: category || newCategory,
-        user: "669d6167c5f101403e870ee9",
+      //  user: "669d6167c5f101403e870ee9",
+        user: _id,
+
       });
       console.log("resposne", res);
     } catch (e) {
