@@ -40,7 +40,9 @@ const RegistrationForm = ({setValue}) => {
             validationSchema={validationSchema}
             onSubmit={async (values) => {
                 try{const res = await axios.post("http://localhost:8000/register",values);
-                  console.log("register", res);}
+                  console.log("register", res);
+                  setValue(1);
+                }
                   catch(e){
                     console.log("error in register" ,e);
                   }

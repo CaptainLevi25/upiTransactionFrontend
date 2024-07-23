@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -15,6 +15,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Formik, Form, Field } from "formik";
 import * as yup from "yup";
 import axios from "axios";
+import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../Authprovider";
 
 // Theme customization
 const theme = createTheme();
@@ -26,7 +28,9 @@ const validationSchema = yup.object({
 });
 
 const LoginForm = ({ setValue }) => {
-      
+      const nav = useNavigate();
+      const {login} = useAuth();
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -51,7 +55,8 @@ const LoginForm = ({ setValue }) => {
             onSubmit={async (values) => {
             try{const res = await axios.post("http://localhost:8000/login",values, {withCredentials: true});
               console.log("login", res);
-                localStorage.setItem('user', JSON.stringify(res.data))
+                
+                 login(res.data);
             }
               catch(e){
                 console.log("error in login" ,e);
