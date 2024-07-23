@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 
-export default function BasicBars({ mp }) {
+export default function BasicBars({ mp, activee, daily, weekly, monthly, selectedDate }) {
   const [xaxis, setxaxis] = useState([]);
   const [yaxis, setyaxis] = useState([]);
 
@@ -47,10 +47,18 @@ export default function BasicBars({ mp }) {
     console.log(keyarr);
     setxaxis(keyarr);
     const valarr = sumMapNestedArrayZerothIndex(mp);
+
     console.log("valarr", valarr);
-    setyaxis(valarr);
+    console.log(activee);
+    console.log("dailsy",daily && Array.from(daily).map(itm=>itm.average));
+    if ( activee === 0) {
+      setyaxis(valarr);
+    }else if(   activee === 1) {setyaxis(Array.from(daily).map(itm=>itm.average))}
+    else if (  activee === 2 ) {setyaxis(Array.from(weekly).map(itm=>itm.average))}
+    else if (activee ===  3) {setyaxis(Array.from(monthly).map(itm=>itm.average))}
+
     console.log(valarr);
-  }, [mp]);
+  }, [mp,activee,daily,weekly,monthly,selectedDate]);
   return (
     <BarChart
       xAxis={[

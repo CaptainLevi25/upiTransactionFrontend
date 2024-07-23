@@ -10,7 +10,7 @@ import { Fab } from '@mui/material';
 import { Add, AddBox, AddIcCallRounded } from '@mui/icons-material';
 import axios from 'axios';
 
-export default function FormDialog() {
+export default function FormDialog({fetchAllTransaction, fetchCategoryData}) {
   const {_id} =  JSON.parse(localStorage.getItem('user'));
   const [name,setname] = React.useState('');
   const [open, setOpen] = React.useState(false);
@@ -40,6 +40,8 @@ export default function FormDialog() {
 
        })
        console.log(res);
+       fetchAllTransaction();
+        fetchCategoryData();
        setOpen(false);
     } catch (error) {
         console.log("error in saving category" , error);

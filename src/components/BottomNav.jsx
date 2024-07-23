@@ -22,7 +22,7 @@ export default function SimpleBottomNavigation({cats}) {
       >
         <BottomNavigationAction label="Recents" icon={<RestoreIcon fontSize='large'/>} />
         {/* <BottomNavigationAction label="Payments" icon={<Transaction fontSize='large' />} /> */}
-        <Transaction label="Payments" cats={cats} />
+    
         <BottomNavigationAction label="Nearby" icon={<LocationOnIcon fontSize='large'/>} />
       </BottomNavigation>
     </Box>
