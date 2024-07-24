@@ -5,6 +5,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import RegistrationForm from "./Register";
 import LoginForm from "./Login";
+import Header from "../components/Header";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -20,7 +21,7 @@ function CustomTabPanel(props) {
       {value === index && (
         <Box
           sx={{
-            p: 3,
+            
             display: "flex",
             height: "91vh",
             justifyContent: "center",
@@ -55,15 +56,16 @@ export default function BasicTabs() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider", height: "7vh" }}>
+      <Box  sx={{ borderBottom: 1, borderColor: "divider", height: "7vh" , backgroundColor: "#374151"}}>
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
+         
         >
-          <Tab label="Register" {...a11yProps(0)} />
-          <Tab label="Login" {...a11yProps(1)} />
-          <Tab label="Know About Us" {...a11yProps(2)} />
+          <Tab label="Register" {...a11yProps(0)}  sx={{color: "white"}}/>
+          <Tab label="Login" {...a11yProps(1)} sx={{color: "white"}}/>
+          <Tab label="About US" {...a11yProps(2)} sx={{color: "white"}}/>
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -73,7 +75,7 @@ export default function BasicTabs() {
         <LoginForm setValue={setValue} />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Item Three
+        <Header/>
       </CustomTabPanel>
     </Box>
   );

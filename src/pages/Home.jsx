@@ -284,7 +284,7 @@ export default function Home() {
       </div>
       <div className="w-screen min-h-screen bg-slate-400  p-10  overflow-hidden flex flex-col gap-10">
         <div className=" flex  overflow-x-scroll flex-shrink-0  items-center">
-          <div className=" flex  gap-10">
+          <div className=" flex  gap-10 shadow-lg justify-center items-center p-2">
             {mp.size > 0 &&
               Array.from(mp.entries()).map(([key, value], index) => (
                 <CardComponent
@@ -370,7 +370,7 @@ export default function Home() {
         {" "}
         <SimpleBottomNavigation cats={categories} />{" "}
 
-        <div  style={{position : "fixed" , bottom: "40px" , right : "80px"}}> <Transaction label="Payments" cats={categories} fetchAllTransaction = {fetchAllTransaction} fetchCategoryData = {fetchCategoryData} /></div>
+        <div  className="" style={{position : "fixed" , bottom: "40px" , right : "80px"}}> <Transaction label="Payments" cats={categories} fetchAllTransaction = {fetchAllTransaction} fetchCategoryData = {fetchCategoryData} /></div>
       </div>
     </>
   );

@@ -23,12 +23,12 @@ export default function CardComponent({ name, price, value }) {
   }
 
   return (
-    <div className=" bg-slate-100 h-64 w-80 flex flex-col  shadow-2xl rounded-lg overflow-hidden  ">
-      <div className=" bg-slate-300 h-1/4  flex  item-center p-4 justify-between items-center">
+    <div className=" bg-slate-300 h-64 w-80 flex flex-col  shadow-2xl rounded-lg overflow-hidden ">
+      <div className=" bg-slate-600 h-1/4  flex  item-center p-4 justify-between items-center text-white">
         <div className="text-4xl">{name}</div>
-        <div className="text-5xl" style={{ color: "red" }}>
+        <div className="text-2xl" style={{ color: "red" }}>
           {" "}
-          ${price}
+          {/* ${price} */}
         </div>
       </div>
       <div className=" overflow-y-scroll">
